@@ -43,5 +43,8 @@
         "webpack-cli": "^4.5.0",
         "webpack-merge": "^5.7.3",
         "webpack-node-externals": "^2.5.2"
+    },
+    "dependencies": {
+        "graphql-modules": "^1.2.1"
     }
 }
