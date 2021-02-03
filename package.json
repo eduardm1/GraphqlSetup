@@ -26,6 +26,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@types/mongodb": "^3.6.3",
         "@types/webpack-env": "^1.16.0",
         "@typescript-eslint/eslint-plugin": "^4.14.2",
         "@typescript-eslint/parser": "^4.14.2",
@@ -36,6 +37,7 @@
         "eslint-config-prettier": "^7.2.0",
         "eslint-plugin-prettier": "^3.3.1",
         "graphql": "^15.5.0",
+        "graphql-cli": "^4.1.1-alpha-5d3eec3.0",
         "prettier": "^2.2.1",
         "ts-loader": "^8.0.14",
         "typescript": "^4.1.3",
@@ -45,6 +47,10 @@
         "webpack-node-externals": "^2.5.2"
     },
     "dependencies": {
-        "graphql-modules": "^1.2.1"
+        "@graphql-codegen/typescript": "^1.20.2",
+        "@test-graphql-cli/codegen": "^4.0.1-alpha-fa3f09e.0",
+        "graphql-modules": "^1.2.1",
+        "graphql-scalars": "^1.7.0",
+        "mongodb": "^3.6.4"
     }
 }

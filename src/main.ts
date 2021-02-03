@@ -1,20 +1,35 @@
 import { ApolloServer } from 'apollo-server';
+import { DateTimeMock, EmailAddressMock, UnsignedIntMock } from 'graphql-scalars';
 
+import { addMockUsersAsync, mongoDbProvider } from './mongodb.provider';
 import { environment } from './environment';
 import { application } from './application';
 
-const schema = application.createSchemaForApollo();
+(async function bootstrapAsync(): Promise<void> {
+    await mongoDbProvider.connectAsync(environment.mongoDb.databaseName);
+    await addMockUsersAsync();
 
-const server = new ApolloServer({
-    schema,
-    introspection: environment.apollo.introspection,
-    // playground: environment.apollo.playground
-});
+    const schema = application.createSchemaForApollo();
 
-server.listen().then(({ url }) => console.log(`Server ready at ${url}.`));
+    const server = new ApolloServer({
+        schema,
+        introspection: environment.apollo.introspection,
+        mocks: {
+            DateTime: DateTimeMock,
+            EmailAddress: EmailAddressMock,
+            UnsignedInt: UnsignedIntMock,
+        }, //
+        // playground: environment.apollo.playground
+    });
 
-//Hot Module Replacement
-if (module.hot) {
-    module.hot.accept();
-    module.hot.addDisposeHandler(() => console.log('Module disposed.'));
-}
+    server.listen().then(({ url }) => console.log(`Server ready at ${url}.`));
+
+    //Hot Module Replacement
+    if (module.hot) {
+        module.hot.accept();
+        module.hot.dispose(async () => {
+            server.stop();
+            await mongoDbProvider.closeAsync();
+        });
+    }
+})();
